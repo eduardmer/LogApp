@@ -1,12 +1,10 @@
 package com.hiltproject.ui;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +14,6 @@ import com.hiltproject.data.LoggerRepository;
 import com.hiltproject.databinding.FragmentButtonsBinding;
 import com.hiltproject.navigator.AppNavigator;
 import com.hiltproject.navigator.Screens;
-
 import javax.inject.Inject;
 import dagger.hilt.android.AndroidEntryPoint;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
@@ -59,6 +56,12 @@ public class ButtonsFragment extends Fragment {
                 () -> Log.i("pergjigja", "Sukses"),
                 e -> Log.i("pergjigja", e.toString())
         ));
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        compositeDisposable.clear();
     }
 
     @Override

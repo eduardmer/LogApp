@@ -9,6 +9,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class LoggerRepositoryImpl implements LoggerRepository{
 
     final LogDao logDao;
+    public int a=0;
 
     @Inject
     public LoggerRepositoryImpl(LogDao logDao){
@@ -22,11 +23,12 @@ public class LoggerRepositoryImpl implements LoggerRepository{
 
     @Override
     public Flowable<List<LogEntity>> getAllLogs() {
-        return logDao.getAllLogs();
+        return logDao.getAllLogs().subscribeOn(Schedulers.io());
     }
 
     @Override
     public Completable deleteAllLogs() {
         return Completable.fromAction(logDao::deleteAllLogs).subscribeOn(Schedulers.io());
     }
+
 }
