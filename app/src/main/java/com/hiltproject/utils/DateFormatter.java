@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.inject.Inject;
+import dagger.hilt.android.scopes.FragmentScoped;
 
+@FragmentScoped
 public class DateFormatter {
 
     @SuppressLint("SimpleDateFormat")

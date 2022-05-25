@@ -37,7 +37,7 @@ public class LogFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        LogAdapter adapter = new LogAdapter(new ArrayList<>());
+        LogAdapter adapter = new LogAdapter(this, new ArrayList<>());
         binding.recyclerView.setAdapter(adapter);
         compositeDisposable.add(logger.getAllLogs().observeOn(AndroidSchedulers.mainThread()).subscribe(
                 adapter::updateLogs,

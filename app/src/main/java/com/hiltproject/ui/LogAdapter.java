@@ -4,18 +4,36 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import com.hiltproject.R;
 import com.hiltproject.data.LogEntity;
 import com.hiltproject.databinding.LogItemBinding;
+import com.hiltproject.utils.DateFormatter;
 import java.util.List;
+import dagger.hilt.EntryPoint;
+import dagger.hilt.InstallIn;
+import dagger.hilt.android.EntryPointAccessors;
+import dagger.hilt.android.components.FragmentComponent;
 
 public class LogAdapter extends RecyclerView.Adapter<LogAdapter.CustomViewHolder> {
 
+    @InstallIn(FragmentComponent.class)
+    @EntryPoint
+    interface LogAdapterEntryPoint{
+        DateFormatter dateFormatter();
+    }
+
+    private DateFormatter getDateFormatter(Fragment context){
+        return EntryPointAccessors.fromFragment(context, LogAdapterEntryPoint.class).dateFormatter();
+    }
+
+    final Fragment fragment;
     final List<LogEntity> logs;
 
-    public LogAdapter(List<LogEntity> logs){
-       this.logs = logs;
+    public LogAdapter(Fragment fragment, List<LogEntity> logs){
+        this.fragment = fragment;
+        this.logs = logs;
     }
 
     @NonNull
@@ -28,7 +46,7 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.CustomViewHolder
     @Override
     public void onBindViewHolder(@NonNull CustomViewHolder holder, int position) {
         LogEntity log = logs.get(position);
-        holder.bind(log.getMessage());
+        holder.bind(log.getMessage() + "\n" + getDateFormatter(fragment).formatDate(log.getTime()));
     }
 
     @Override
